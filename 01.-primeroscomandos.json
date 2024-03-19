@@ -1,0 +1,216 @@
+show dbs
+use dbs
+db.createCollection()
+use db1
+show collection
+db.empleado.insertOne({nombre:'Ramon',apellido:'Lopez',edad:23})
+db.empleado.find()
+db.empleado.find({})
+
+db.dropDatabse()
+
+db.empleado.insertMany(
+{
+    nombre:'Hermeregildo',
+    edad:67
+},
+{
+    nombre:'Soylavaca',
+    edad:14,
+    sexo:'Mujer'},
+{
+    nombre:'Romulo',
+    edad:40,
+    nacionalidad:'Nigeriano'
+},
+{
+    nombre:'Cristian Andres',
+    localidad:'Sn Miguel de las Piedras',
+    nacionalidad:'Aleman',edad:'Esta morro'
+})
+
+
+{$or:[{expresion1},{expresion2}]}
+
+
+todos aquellos libros 
+
+db.libros.find({
+    $or:[
+        {precio:{$gt:25}},{cantidad:{$lt:15}}
+    ] })
+
+seleccionar libro de editorial biblio
+con precio mayor a 40 o libros de editorial
+planeta con precio mayor a 30
+
+use libros
+db.libros.find(
+{$or:[
+    {
+        $and:[{editorial:{$eq:'Biblio'}},{precio:{$gt:40}}]
+    },
+{
+    $and:[{precio:{$gt:30}},{editorial:{$eq:'Planeta'}}
+    ]
+}
+]
+    }
+)
+
+ver solo ciertas columnas
+
+db.libros.find({},{titulo:1})
+
+db.libros.find({titulo:'Don Quijote'},{titulo:1})
+
+db.libros.find({titulo:'Don quijote'},{id:0,titulo:1,precio:25})
+
+
+
+db.libros.find(
+{$or:[
+    {
+        $and:[{editorial:{$eq:'Biblio'}},{precio:{$gt:40}}]
+    },
+{
+    $and:[{precio:{$gt:30}},{editorial:{$eq:'Planeta'}}
+    ]
+}
+]
+    },{
+        titulo:1, cantidad:1, precio:1, _id:0
+    }
+)
+
+db.libros.find({titulo:{$exists:true}})
+
+db.libros.find({autor:{$exists:false}})
+
+db.libros.find({$and:[{precio:{$gt:5}},{autor:{$exists:true}}] })
+
+db.libros.insertOne({_id:11,titulo:'Estupro',fianza:true,anios_carcel:'dos'})
+
+db.libros.find({_id:9})
+
+db.libros.insertOne({_id:11,titulo:'Estupro',fianza:true,anios_carcel:'dos'})
+
+db.libros.find({precio:{$type:'double'}})
+
+db.libros.find({precio:{$type:1}})
+
+14/02/2024
+
+db.libros.find()
+
+--solo se modifica el primero que encuentra 
+
+db.libros.updateOne({titulo:'Java para todos'},{$set:{titulo:'Java el rey'}})
+
+--upserted
+
+db.libros.find({_id:9})
+
+db.libros.insertOne({_id:10,"titulo":"Los enamorados","autor":"Benito J.","precio":1234.1})
+
+db.libros.updateOne({_id:10},{$set:{"precio":10.2,"cantidad":50}})
+
+db.libros.updateMany(
+{
+    precio:{$gt:100}
+},{$set:{precio:150}}
+)
+
+db.libros.updateMany(
+{
+    precio:{$gt:100}
+},{$set:{precio:150}}
+)
+
+db.libros.updateMany({},{$inc:{precio:5}})
+
+db.libros.updateMany({_"_id":10},{{$inc:{precio:5}}})
+
+db.libros.updateMany({"cantidad":{$gt:20}},{$mul:{precio:2}})
+
+--remplazar documentos completos (todos) REPLACE()
+
+db.libros.replaceOne(
+{"_id":10},{"titulo":"las patoaventuras de Ezequiel"}
+)
+
+--el _id no se puede remplazar ni actualizar
+
+--borrar documentos 
+
+hay dos lenguajes en sql drop(elimina tablas sttored procedures vistas coleccion base de datos)
+delete (elimina datos) 
+
+db.libros.deleteOne({"titulo":'Java para todos'})
+
+db.libros.deleteMany({cantidad:{$gt:150}})
+
+--expresiones regulares
+
+--encuentra todo donde el titulo tenga t
+db.libros.find("titulo":/t/)   -- select * from libros where titulo like '%t%'
+
+db.libros.find()
+
+--es sensible a mayusculas y minusculas
+
+db.libros.find({"titulo":/MongoDB/})
+
+--donde todos terminen con tos
+
+db.libros.find("titulo":/tos$/)
+
+--donde todos empiezen con M
+db.libros.find("titulo":/^M/)
+
+indexacion de tablas o hacer 
+
+
+db.libros.find("titulo":{$regex:'para'})
+
+db.libros.find("titulo":{$regex:/para/})
+
+db.libros.find("titulo":{{$regex:/mongo/,$options:"i"}})
+
+--options:"i" es pra el case sensitive, para que no lo 
+
+todos los documentos de libros pero solo mostrar titulo y precio
+
+
+db.libros.find({},{{id:0,titulo:1,precio:1}})
+
+asc-> 1
+des -> -1
+
+db.libros.find({},{{id:0,titulo:1,precio:1}}).sort({titulo:1})
+
+db.libros.find({},{{id:0,titulo:1,precio:1}}).sort({titulo:-1})
+
+--su prioridad de sort es de izquierda a derecha
+
+db.libros.find({},{titulo:1,precio:1,editorial:1,_id:0}).sort({titulo:1,editorial:1})
+
+db.libros.find({},{titulo:1,precio:1,editorial:1,_id:0}).limit(2).sort({titulo:1,editorial:1})
+
+db.libros.find({},{titulo:1,precio:1,editorial:1,_id:0}).size().sort({titulo:1,editorial:1})
+
+--saltarse documentos
+
+db.libros.skip()
+
+--limit
+ db.libros.find({},{"titulo":1,"precio":1,"_id":0,"editorial":1}).skip(3).sort({titulo:1}).limit(2)
+
+--size
+
+--primero se ordena y despues lo salta
+
+select top 3
+
+--
+
