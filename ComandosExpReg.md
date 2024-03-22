@@ -1,8 +1,6 @@
 ## Comandos en Mongodb
 ### *Expresiones Regulares*
 
-![ExpReg001]("C:\Users\keita\OneDrive\Escritorio\aprendiendomongodb\ExpReg01.png")
-
 **Nota: Mongodb es sensible a mayusculas y minusculas.**
 
  Este primer código significa que de la bd libros buscara todo titulo que contenga una "t".   
